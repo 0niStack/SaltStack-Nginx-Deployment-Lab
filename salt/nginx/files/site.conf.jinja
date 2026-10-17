@@ -1,0 +1,15 @@
+# Managed by Salt - do not edit by hand
+server {
+    listen {{ salt['pillar.get']('nginx:port', 80) }};
+    server_name {{ salt['pillar.get']('nginx:server_name', '_') }};
+
+    root {{ salt['pillar.get']('nginx:web_root', '/var/www/mysite') }};
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    access_log /var/log/nginx/{{ salt['pillar.get']('nginx:site_name', 'mysite') }}.access.log;
+    error_log  /var/log/nginx/{{ salt['pillar.get']('nginx:site_name', 'mysite') }}.error.log;
+}
